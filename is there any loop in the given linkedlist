@@ -1,0 +1,148 @@
+#include<iostream>
+#include<map>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+
+    Node(int data)
+    {
+        this->data=data;
+        this->next=NULL;
+    }
+};
+
+void insertattail(Node* &tail,int d)
+{
+   Node* temp=new Node(d);
+   tail->next=temp;
+   tail=tail->next;
+   temp->next=NULL;
+}
+ int getlength(Node* &head)
+ {
+    int count=0;
+    Node* temp=head;
+    while(temp!=NULL)
+    {
+        count++;
+        temp=temp->next;
+    }
+    return count;
+ }
+ void print(Node* &head)
+ {
+    Node* temp=head;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+ }
+
+void makealoop(Node* &head,Node* &tail,int x)
+{
+  Node* temp=head;
+  while(x>1)
+  {
+    temp=temp->next;
+    x--;
+  }
+  tail->next=temp;
+}
+bool detectloop(Node* head)
+{
+  map<Node*,bool>visited;
+  Node* temp=head;
+  while(temp!=NULL)
+  {
+    if(visited[temp]==true)
+    {
+      cout<<"beginnning of loop "<<temp->data<<endl;
+      return true;
+    }
+    visited[temp]=true;
+    temp=temp->next;
+  }
+  return false;
+}
+Node* floyddetectloop(Node* head)
+{
+  Node* slow=head;
+  Node* fast=head;
+  while(slow!=NULL && fast!=NULL)
+  {
+    fast=fast->next;
+    if(fast!=NULL)
+    fast=fast->next;
+    slow=slow->next;
+    if(slow==fast)
+    {
+      //it will give a node data which is in the loop
+    //  cout<<" present at "<<slow->data<<endl;
+      return slow;
+    }
+  }
+
+  return NULL;
+}
+Node* getstartingnode(Node* head)
+{
+  Node* intersection=floyddetectloop(head);
+  Node* slow=head;
+  while(slow!=intersection)
+  {
+    slow=slow->next;
+    intersection=intersection->next;
+  }
+  return slow;
+}
+void removeloop(Node* head)
+{
+  Node* startofloop=getstartingnode(head);
+  Node* temp=startofloop;
+  while(temp->next!=startofloop){
+    temp=temp->next;
+  }
+  temp->next=NULL;
+}
+int main()
+{
+      int n;
+      cin>>n;
+      int arr[n];
+      for(int i=0;i<n;i++)
+      {
+        cin>>arr[i];
+      }
+      Node* node1=new Node(arr[0]);
+      Node* head=node1;
+      Node* tail=node1;
+      for(int i=1;i<n;i++)
+      {
+        insertattail(tail,arr[i]);
+      }
+    print(head);
+    
+    cout<<endl;
+    makealoop(head,tail,3);
+
+  if(detectloop(head)==true)
+  cout<<"loop is present"<<endl;
+  else
+  cout<<"loop is not present"<<endl;
+
+  if(floyddetectloop(head)!=NULL)
+    cout<<"loop is present"<<endl;
+  else
+  cout<<"loop is not present"<<endl;
+
+   //cout<<"beginning of loop is by flyod loop detect method"<<getstartingnode(head)<<endl;
+   //to execute the above line convert the getstartingnode function which give the dtata of starting node
+
+   removeloop(head);
+   print(head);
+
+}
