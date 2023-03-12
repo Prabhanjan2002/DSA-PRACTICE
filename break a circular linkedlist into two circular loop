@@ -1,0 +1,132 @@
+#include<iostream>
+using namespace std;
+class node{
+    public:
+    int data;
+    node* next;
+
+    node(int d)
+    {
+        this->data=d;
+        this->next=NULL;
+    }
+};
+
+
+void insertnode(node* &tail,int element,int d)
+{
+   if(tail==NULL)
+   {
+    node* newnode=new node(d);
+    tail=newnode;
+    newnode->next=newnode;
+   }
+
+   else{
+    node* curr=tail;
+    while(curr->data!=element){
+        curr=curr->next;
+    }
+    node* temp=new node(d);
+    temp->next=curr->next;
+    curr->next=temp;
+   }
+}
+
+void divideinto2loop(node* &tail,int length)
+{
+    node* temp=tail;
+
+    int divisionpoint;
+    if(length%2==0)
+    divisionpoint=(length/2)-1;
+    else
+    divisionpoint=(length/2);
+    node* startof1st=tail;
+    node* endof1st=NULL;
+    node* startof2nd=NULL;
+    node* endof2nd=NULL;
+    int count=0;
+    while(temp->next!=tail)
+    {
+        if(count==divisionpoint)
+        {
+        endof1st=temp;
+        startof2nd=temp->next;
+        }
+        temp=temp->next;
+        count++;
+        
+    }
+
+    endof2nd=temp;
+
+    cout<<startof1st->data<<endl;
+    cout<<endof1st->data<<endl;
+    cout<<startof2nd->data<<endl;
+    cout<<endof2nd->data<<endl;
+
+    //1st loop 
+    endof1st->next=startof1st;
+     node* temp1st=startof1st;
+  do{
+    cout<<temp1st->data<<" ";
+    temp1st=temp1st->next;
+  }while(temp1st!=startof1st);
+  cout<<endl;
+
+  //2nd loop 
+    endof2nd->next=startof2nd;
+     node* temp2nd=startof2nd;
+  do{
+    cout<<temp2nd->data<<" ";
+    temp2nd=temp2nd->next;
+  }while(temp2nd!=startof2nd);
+  cout<<endl;
+
+
+}
+
+int getlength(node* &tail)
+{
+    node* temp=tail;
+    int count=1;
+    while(temp->next!=tail)
+    {
+        count++;
+        temp=temp->next;
+    }
+    return count;
+}
+
+void print(node* &tail)
+{
+  node* temp=tail;
+  do{
+    cout<<tail->data<<" ";
+    tail=tail->next;
+  }while(tail!=temp);
+  cout<<endl;
+}
+
+int main()
+{
+    node* tail=NULL;
+    insertnode(tail,0,3);
+    insertnode(tail,3,4);
+    insertnode(tail,4,5);
+    insertnode(tail,5,6);
+    insertnode(tail,6,7);
+     insertnode(tail,7,8);
+     insertnode(tail,8,9);
+     insertnode(tail,9,10);
+    print(tail);
+    cout<<endl;
+    int length=getlength(tail);
+    cout<<length<<endl;
+    cout<<endl;
+    divideinto2loop(tail,length);
+
+
+   
+}
