@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+
+    Node(int data)
+    {
+        this->data=data;
+        this->next=NULL;
+    }
+};
+
+
+
+void insertattail(Node* &tail,int d)
+{
+    Node* temp=new Node(d);
+    tail->next=temp;
+    tail=temp;
+}
+void print(Node* &head)
+{
+    Node* temp=head;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+}
+
+void sort012(Node* head)
+{
+    int countzero=0;
+    int countone=0;
+    int counttwo=0;
+
+    Node* temp=head;
+    while(temp!=NULL)
+    {
+        if(temp->data==0)
+        countzero++;
+        else if(temp->data==1)
+        countone++;
+        else if(temp->data==2)
+        counttwo++;
+        temp=temp->next;
+    }
+    temp=head;
+    while(temp!=NULL)
+    {
+        if(countzero)
+        {
+            temp->data=0;
+            countzero--;
+        }
+        else if(countone)
+        {
+            temp->data=1;
+            countone--;
+        }
+        else if(counttwo)
+        {
+            temp->data=2;
+            counttwo--;
+        }
+        temp=temp->next;
+    }
+    print(head);
+}
+
+
+int main()
+{
+   int n;
+   cin>>n;
+   int arr[n];
+   for(int i=0;i<n;i++)
+   {
+    cin>>arr[i];
+   }
+   Node* node1=new Node(arr[0]);
+   Node* head=node1;   
+   Node* tail=node1;
+   for(int i=1;i<n;i++)
+   {
+    insertattail(tail,arr[i]);
+   }
+   print(head);
+   cout<<endl;
+   sort012(head);
+   return 0;
+}
