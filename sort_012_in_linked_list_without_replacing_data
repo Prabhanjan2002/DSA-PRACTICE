@@ -1,0 +1,113 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+
+    Node(int data)
+    {
+        this->data=data;
+        this->next=NULL;
+    }
+};
+
+
+
+void insertattail(Node* &tail,int d)
+{
+    Node* temp=new Node(d);
+    tail->next=temp;
+    tail=temp;
+}
+void print(Node* &head)
+{
+    Node* temp=head;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+}
+
+void sort012(Node* head)
+{
+   Node* zerohead=new Node(-1);
+   Node* zerotail=zerohead;
+   Node* onehead=new Node(-1);
+   Node* onetail=onehead;
+   Node* twohead=new Node(-1);
+   Node* twotail=twohead;
+
+   Node* temp=head;
+   while(temp!=NULL)
+   {
+    if(temp->data==0)
+    insertattail(zerotail,0);
+    else if(temp->data==1)
+    insertattail(onetail,1);
+    else if(temp->data==2)
+    insertattail(twotail,2);
+    temp=temp->next;
+   }
+
+   //make separate linlked list for each
+   cout<<endl;
+   print(zerohead);
+   cout<<endl;
+   print(onehead);
+   cout<<endl;
+   print(twohead);
+
+   //now connect the three linked list
+   if(onehead->next!=NULL)
+   {
+    zerotail->next=onehead->next;
+   }
+   else
+   {
+     zerotail->next=twohead->next;
+   }
+
+   onetail->next=twohead->next;
+    twotail->next=NULL;
+
+   head=zerohead->next;
+   
+    delete zerohead;
+    delete zerotail;
+    delete onehead;
+    delete onetail;
+    delete twohead;
+    delete twotail;
+
+//    cout<<endl;
+//    print(head);
+
+}
+
+
+int main()
+{
+   int n;
+   cin>>n;
+   int arr[n];
+   for(int i=0;i<n;i++)
+   {
+    cin>>arr[i];
+   }
+   Node* node1=new Node(arr[0]);
+   Node* head=node1;   
+   Node* tail=node1;
+   for(int i=1;i<n;i++)
+   {
+    insertattail(tail,arr[i]);
+   }
+   print(head);
+   cout<<endl;
+   sort012(head);
+   cout<<endl;
+   print(head);
+   return 0;
+}
