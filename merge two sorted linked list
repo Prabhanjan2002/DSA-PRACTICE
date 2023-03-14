@@ -1,0 +1,115 @@
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+
+    Node(int data)
+    {
+        this->data=data;
+        this->next=NULL;
+    }
+};
+
+
+
+void insertattail(Node* &tail,int d)
+{
+    Node* temp=new Node(d);
+    tail->next=temp;
+    tail=temp;
+}
+void print(Node* &head)
+{
+    Node* temp=head;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp=temp->next;
+    }
+}
+
+Node* merge(Node* firsthead,Node* secondhead)
+{
+    Node* curr1=firsthead;
+    Node* forward1=curr1->next;
+    Node* curr2=secondhead;
+    Node* forward2=curr2->next;
+
+    while(forward1!=NULL&&curr2!=NULL)
+    {
+        if(curr2->data>=curr1->data && curr2->data<=forward1->data)
+        {
+            curr1->next=curr2;
+            forward2=curr2->next;
+            curr2->next=forward1;
+            curr1=curr2;
+            curr2=forward2;
+        }
+        else{
+            curr1=forward1;
+            forward1=forward1->next;
+            if(forward1==NULL)
+            {
+                curr1->next=curr2;
+                return firsthead;
+            }
+        }
+    }
+    return firsthead;
+}
+
+
+
+
+int main()
+{
+   int n,m;
+   cout<<"enter the size of first list"<<endl;
+   cin>>n;
+   int arr1[n];
+   cout<<"enter the elements of 1st list"<<endl;
+   for(int i=0;i<n;i++)
+   {
+    cin>>arr1[i];
+   }
+   cout<<"enter the size of 2nd list"<<endl;
+   cin>>m;
+   int arr2[m];
+   cout<<"enter the elements of 2nd list"<<endl;
+   for(int i=0;i<m;i++)
+   {
+    cin>>arr2[i];
+   }
+
+   //construction on 1st list
+   Node* first=new Node(arr1[0]);
+   Node* firsthead=first;
+   Node* firsttail=first;
+   for(int i=1;i<n;i++)
+   {
+    insertattail(firsttail,arr1[i]);
+   }
+   //construction of second list
+   Node* second=new Node(arr2[0]);
+   Node* secondhead=second;
+   Node* secondtail=second;
+   for(int i=1;i<m;i++)
+   {
+    insertattail(secondtail,arr2[i]);
+   }
+   print(first);
+   cout<<endl;
+   print(second);
+   cout<<endl;
+   Node* mergehead=NULL;
+   if(firsthead->data<=secondhead->data)
+   mergehead=merge(firsthead,secondhead);
+   if(firsthead->data>secondhead->data)
+   mergehead=merge(secondhead,firsthead);
+   print(mergehead);
+
+   return 0;
+}
