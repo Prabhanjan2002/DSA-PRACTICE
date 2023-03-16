@@ -1,0 +1,273 @@
+#include<iostream>
+
+using namespace std;
+
+class Node{
+
+    public:
+
+    int data;
+
+    Node* next;
+
+    
+
+    Node(int data)
+
+    {
+
+      this->data=data;
+
+      this->next=NULL;
+
+    }
+
+};
+
+void insertattail(Node* &tail,int digit)
+
+{
+
+        Node* temp=new Node(digit);
+
+        tail->next=temp;
+
+        tail=temp;
+
+}
+
+Node* reverse(Node* head)
+
+{
+
+    Node* curr=head;
+
+    Node* forward=NULL;
+
+    Node* prev=NULL;
+
+    while(curr!=NULL)
+
+    {
+
+        forward=curr->next;
+
+        curr->next=prev;
+
+        prev=curr;
+
+        curr=forward;
+
+    }
+
+    return prev;
+
+}
+
+void print(Node* &head)
+
+{
+
+    Node* temp=head;
+
+    while(temp->next!=NULL)
+
+    {
+
+        cout<<temp->data<<"->";
+
+        temp=temp->next;
+
+    }
+
+    cout<<temp->data<<endl;
+
+}
+
+Node* revsumofnumbers(Node* revhead1,Node* revhead2,Node* sumhead,Node* sumtail)
+
+{
+
+    Node* temp1=revhead1;
+
+    Node* temp2=revhead2;
+
+    int sum=0,carry=0,digit;
+
+    while(temp1!=NULL && temp2!=NULL)
+
+    {
+
+        sum=temp1->data+temp2->data+carry;
+
+        digit=sum%10;
+
+        insertattail(sumtail,digit);
+
+        carry=sum/10;
+
+        temp1=temp1->next;
+
+        temp2=temp2->next;
+
+    }
+
+    while(temp1!=NULL)
+
+    {
+
+       sum=temp1->data+carry;
+
+       digit=sum%10;
+
+       insertattail(sumtail,digit);
+
+       carry=sum/10;
+
+       temp1=temp1->next;
+
+    }
+
+     while(temp2!=NULL)
+
+    {
+
+       sum=temp2->data+carry;
+
+       digit=sum%10;
+
+       insertattail(sumtail,digit);
+
+       carry=sum/10;
+
+       temp2=temp2->next;
+
+    }
+
+    if(carry!=0)
+
+    {
+
+        insertattail(sumtail,carry);
+
+    }
+
+    sumhead=sumhead->next;
+
+    return sumhead;
+
+}                                                                                                                                                                      
+
+int main()
+
+{
+
+    int n;
+
+    cout<<"enter the no of elements in 1st number"<<endl;
+
+    cin>>n;
+
+    int arr1[n];
+
+    cout<<"enter the elements in 1st number"<<endl;
+
+    for(int i=0;i<n;i++)
+
+    {
+
+        cin>>arr1[i];
+
+    }
+
+    
+
+    int m;
+
+    cout<<"enter the no of elements in 2nd number"<<endl;
+
+    cin>>m;
+
+    int arr2[m];
+
+    cout<<"enter the elements in 2nd number"<<endl;
+
+    for(int i=0;i<m;i++)
+
+    {
+
+        cin>>arr2[i];
+
+    }
+
+    
+
+    Node* head1=new Node(arr1[0]);
+
+    Node* tail1=head1;
+
+    for(int i=1;i<n;i++)
+
+    {
+
+        insertattail(tail1,arr1[i]);
+
+    }
+
+    cout<<"the 1st number is"<<endl;
+
+    print(head1);
+
+    
+
+      Node* head2=new Node(arr2[0]);
+
+    Node* tail2=head2;
+
+    for(int i=1;i<m;i++)
+
+    {
+
+        insertattail(tail2,arr2[i]);
+
+    }
+
+    cout<<"the 2nd number is"<<endl;
+
+    print(head2);
+
+    
+
+    Node* revhead1=reverse(head1);
+
+    Node* revhead2=reverse(head2);
+
+    cout<<"reverse of 1st number"<<endl;
+
+    print(revhead1);
+
+    cout<<"reverse of 2nd number"<<endl;
+
+    print(revhead2);
+
+    
+
+    Node* sumhead=new Node(-1);
+
+    Node* sumtail=sumhead;
+
+    Node* revsum=revsumofnumbers(revhead1,revhead2,sumhead,sumtail);
+
+    cout<<"the reverse of the sum is"<<endl;
+
+    print(revsum);
+
+    Node* sum=reverse(revsum);
+
+    cout<<"the final sum is"<<endl;
+
+    print(sum);
+
+    return 0;
+
+}
