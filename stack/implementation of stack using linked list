@@ -1,0 +1,72 @@
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* next;
+
+    Node(int data)
+    {
+        this->data=data;
+        this->next=NULL;
+    }
+};
+
+class stack{
+    public:
+    Node* top;
+
+    stack()
+    {
+        top=NULL;
+    }
+
+    void push(int data)
+    {
+        Node* temp=new Node(data);
+        if(temp==NULL)
+        {
+            cout<<"stack overflow"<<endl;
+            return;
+        }
+        temp->data=data;
+        temp->next=top;
+        top=temp;
+    }
+
+    void pop()
+    {
+        if(top==NULL)
+        {
+            cout<<"stack underflow"<<endl;
+        }
+        Node* temp=top;
+        top=top->next;
+        free(temp);
+    }
+
+    int peak()
+    {
+        if(top==NULL)
+        return -1;
+        return top->data;
+    }
+};
+
+int main()
+{
+    stack st;
+    st.push(5);
+    st.push(7);
+    st.push(8);
+
+    cout<<st.peak()<<endl;  //8
+    st.pop();
+    cout<<st.peak()<<endl;   //7
+    st.pop();
+    cout<<st.peak()<<endl;   //5
+    st.pop();
+    cout<<st.peak()<<endl;    //-1
+    st.pop();     //stack underflow
+}
