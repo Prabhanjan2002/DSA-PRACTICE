@@ -1,0 +1,102 @@
+#include<iostream>
+using namespace std;
+
+class twostack{
+    public:
+    int *arr;
+    int top1;
+    int top2;
+    int size;
+
+    twostack(int s)
+    {
+        this->size=s;
+        top1=-1;
+        top2=s;
+        arr=new int[s];
+    }
+
+    void push1(int element)
+    {
+        if(top2-top1>1)
+        {
+            top1++;
+            arr[top1]=element;
+        }
+        else
+        cout<<"stack overflow"<<endl;
+    }
+
+    void push2(int element)
+    {
+        if(top2-top1>1)
+        {
+            top2--;
+            arr[top2]=element;
+        }
+        else
+        cout<<"stack overflow"<<endl;
+    }
+
+    void pop1()
+    {
+      if(top1>=0)
+      {
+        top1--;
+      }
+      else
+      cout<<"stack underflow"<<endl;
+    }
+
+    void pop2()
+    {
+        if(top2<size)
+        {
+            top2++;
+        }
+        else
+        cout<<"stack underflow"<<endl;
+    }
+
+    int peak1()
+    {
+        if(top1>=0)
+        return arr[top1];
+        return -1;
+    }
+
+    int peak2()
+    {
+        if(top2<size)
+        return arr[top2];
+        return -1;
+    }
+};
+int main()
+{
+    twostack st(7);
+    st.push1(5);
+    st.push2(6);
+    st.push1(7);
+    st.push2(8);
+    st.push1(9);
+    st.push2(10);
+    st.push1(11);
+    st.push2(12);  //stack overflow
+    cout<<st.peak1()<<endl; //11
+    cout<<st.peak2()<<endl;  //10
+    st.pop1();
+    st.pop2();
+    st.pop1();
+    st.pop2();
+    cout<<st.peak1()<<endl;  //7
+    cout<<st.peak2()<<endl;  //6
+    st.pop1();
+    st.pop2();
+    st.pop1();
+    st.pop2();    //stack underflow
+    st.pop1();    //stack underflow
+    st.pop2();    //stack underflow
+
+
+}
