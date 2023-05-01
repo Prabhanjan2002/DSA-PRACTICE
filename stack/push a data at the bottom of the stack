@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void pushatbottom(stack<int>&st,int x)
+{
+    if(st.empty())
+    {
+        st.push(x);
+        return;
+    }
+    int data=st.top();
+    st.pop();
+    pushatbottom(st,x);
+    st.push(data);
+}
+
+int main()
+{
+    stack<int>st;
+    st.push(1);  //1
+    st.push(2);  //1,2
+    st.push(3);  //1,2,3
+    st.push(4);   //1,2,3,4
+    pushatbottom(st,9);   //9,1,2,3,4
+    cout<<st.top()<<endl;   //4
+    st.pop();  
+    cout<<st.top()<<endl;   //3
+    st.pop();  
+    cout<<st.top()<<endl;   //2
+    st.pop();  
+    cout<<st.top()<<endl;   //1
+    st.pop();  
+    cout<<st.top()<<endl;  //9
+
+   return 0;
+
+}
