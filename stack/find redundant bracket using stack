@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+
+
+bool findredundant(string &str)
+{
+   stack<char>st;
+   bool isredundant=true;
+   
+   for(int i=0;i<str.length();i++)
+   {
+    char ch=str[i];
+
+
+    if(ch=='('||ch=='+'||ch=='-'||ch=='*'||ch=='/')
+          st.push(ch);
+
+
+    else
+    {
+        if(ch==')')
+        {
+            while(st.top()!='(')
+            {
+
+                char top=st.top();
+
+                if(top=='+'||top=='-'||top=='*'||top=='/')
+                isredundant=false;
+
+
+                st.pop();
+            }
+            if(isredundant==true)
+            return true;
+            st.pop();
+        }
+    }
+
+   }
+   return false;
+}
+int main()
+{
+    string str="(a*b+(c/d))";//not redundant
+    //"((a+b))";  //redundant
+    bool x=findredundant(str);
+    if(x==true)
+    cout<<"redundant"<<endl;
+    else
+    cout<<"not redundand"<<endl;
+    
+
+}
