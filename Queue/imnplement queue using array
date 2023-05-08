@@ -1,0 +1,91 @@
+#include<iostream>
+using namespace std;
+
+class Queue{
+     int *arr;
+     int front;
+     int rear;
+     int size;
+
+     public:
+     Queue(int size){
+         arr=new int[size];
+         front=0;
+         rear=0;
+     }
+
+     void enque(int data)
+     {
+        if(rear==size)
+        cout<<"queue is full"<<endl;
+        else
+        {
+            arr[rear]=data;
+            rear++;
+        }
+       
+     }
+
+     int deque()
+     {
+        if(front==rear)
+        return -1;
+        else{
+            int ans=arr[front];
+            arr[front]=-1;
+            front++;
+            if(front==rear)
+            {
+                front=0;
+                rear=0;
+            }
+            return ans;
+        }
+     }
+
+     int begin()
+     {
+        if(front==rear)
+        return -1;
+        else
+        {
+            int ans=arr[front];
+            return ans;
+        }
+       
+     }
+
+     
+
+     void isempty()
+     {
+        if(front==rear)
+        cout<<"queue is empty"<<endl;
+        else
+        cout<<"not empty"<<endl;
+
+     }
+};
+
+int main()
+{
+    Queue q(7);
+q.enque(1);
+q.enque(2);
+
+q.enque(3);
+
+q.enque(4);
+q.enque(5);
+
+
+    cout<<q.deque()<<endl;
+    cout<<q.deque()<<endl;
+     
+     int x=q.begin();
+
+    cout<<x<<endl;
+
+
+    q.isempty();
+}
